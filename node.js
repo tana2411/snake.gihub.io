@@ -12,7 +12,7 @@ window.onload = function () {
     context = board.getContext("2d")
     foodspawn()
     document.addEventListener("keyup", changeDirection)
-    setInterval(update, 1000 / 10)
+    setInterval(update, 1500 / 10)
 }
 //snake
 var snakeX = blocksize * 5
