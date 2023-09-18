@@ -3,6 +3,8 @@ var rows = 20
 var cols = 20
 var board
 var context
+
+//Create a game container
 window.onload = function () {
     board = document.getElementById("board")
     board.height = rows * blocksize
@@ -23,16 +25,20 @@ var gameover = false;
 function update() {
 
     if (gameover) { return }
+    //draw bg
     context.fillStyle = "black"
     context.fillRect(0, 0, board.width, board.height)
 
     //food
     context.fillStyle = "red"
     context.fillRect(foodX, foodY, blocksize, blocksize)
+    //When snake eats food, increase by 1 block
     if (snakeX == foodX && snakeY == foodY) {
         snakebody.push([foodX, foodY])
         foodspawn()
     }
+
+    //block [n] has just been created following block [n-1]
     for (let i = snakebody.length - 1; i > 0; i--) {
         snakebody[i] = snakebody[i - 1]
     }
@@ -43,12 +49,14 @@ function update() {
     snakeX += velocityX * blocksize
     snakeY += velocityY * blocksize
     context.fillRect(snakeX, snakeY, blocksize, blocksize)
+    //snake tails
     for (let i = 0; i < snakebody.length; i++) {
         context.fillStyle = "yellow"
         context.fillRect(snakebody[i][0], snakebody[i][1], blocksize, blocksize)
     }
 
 
+    //if the snake goes outside the edge of the game, it appears in the opposite direction
     if (snakeX < 0) {
         snakeX = 500
     } else if (snakeX > 500) {
@@ -61,7 +69,7 @@ function update() {
         snakeY = 0
 
     }
-
+    //If the snake's head hits the body, the game ends
     for (let i = 0; i < snakebody.length; i++) {
         if (snakeX == snakebody[i][0] && snakeY == snakebody[i][1]) {
             gameover = true
@@ -72,7 +80,7 @@ function update() {
 }
 
 
-
+//set move button
 function changeDirection(e) {
     if (e.code == "ArrowUp" && velocityY != 1) {
         velocityX = 0
